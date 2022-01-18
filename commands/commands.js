@@ -17,13 +17,8 @@ module.exports = (/** @type {Client} */ client) => {
             const queue = distube.getQueue(guild.id);
             const config = getConfig();
             if (args.length === 0) {
-                if (!queue) {
+                if (!queue || !queue.paused) {
                     const msgObj = await parseMessage(config.messages.provideSongNameOrLink, { guild, user: author, member, bot: client.user, channel });
-                    channel.send(msgObj);
-                    return;
-                }
-                if (!queue.paused) {
-                    const msgObj = await parseMessage(config.messages.notPaused, { guild, user: author, member, bot: client.user, channel });
                     channel.send(msgObj);
                     return;
                 }
