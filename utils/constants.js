@@ -16,6 +16,8 @@ const defaultConfigObject = {
         error: `#ff0000`,
     },
     status: 'online',
+    startMessageChannelId: '00000000000000000',
+    stopMessageChannelId: '00000000000000000',
     commands: {
         play: {
             command: 'play',
@@ -114,8 +116,16 @@ const defaultConfigObject = {
         }
     },
     messages: {
+        onStart: {
+            title: 'Bot started',
+            description: 'The bot has started',
+        },
+        onStop: {
+            title: 'Bot stopped',
+            description: 'The bot has stopped',
+        },
         provideSongNameOrLink: {
-            message: 'Please provide a song name or link',
+            description: 'Please provide a song name or link',
             color: 'RED',
         },
         notPaused: {

@@ -9,13 +9,14 @@ const client = new Client({
     ],
     partials: ['CHANNEL']
 });
-const { init } = require('@abdevs/discord.js-utils');
+const { init, fetchChannel } = require('@abdevs/discord.js-utils');
 const { getConfig, setDistube } = require('./utils/constants');
 const ConsoleManager = require('@abdevs/console-manager');
 const fileExecutor = require('@abdevs/js-file-executor');
 const logger = require('./utils/logger');
 const { default: DisTube } = require('distube');
 const { SpotifyPlugin } = require('@distube/spotify');
+const { parseMessage } = require('./utils/utils');
 
 ConsoleManager.init({ isHelpCommand: true });
 
@@ -54,6 +55,11 @@ client.login(!config.token || config.token === 'TOKEN' ? process.env.TOKEN : con
     setDistube(distube);
     fileExecutor('commands', client);
     logger.info(`Logged in as ${client.user.tag}`);
+    const startChannel = await fetchChannel(config.startMessageChannelId);
+    if (startChannel) {
+        const msgObj = await parseMessage(config.messages.onStart, { client, channel: startChannel });
+        startChannel.send(msgObj);
+    }
 }).catch((reason) => {
     logger.error(`Failed to start the bot, Error: ${reason}`);
     process.exit(1);

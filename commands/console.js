@@ -1,8 +1,9 @@
 const { addCommand } = require('@abdevs/console-manager');
-const { fetchGuild } = require('@abdevs/discord.js-utils');
+const { fetchGuild, fetchChannel } = require('@abdevs/discord.js-utils');
 const { Client } = require('discord.js');
 const { getConfig, reloadConfig, getDistube } = require('../utils/constants');
 const logger = require('../utils/logger');
+const { parseMessage } = require('../utils/utils');
 
 module.exports = (/** @type {Client} */ client) => {
 
@@ -11,7 +12,12 @@ module.exports = (/** @type {Client} */ client) => {
 
     addCommand({
         ...config.consoleCommands.stop,
-        handler: () => {
+        handler: async () => {
+            const stopChannel = await fetchChannel(config.stopMessageChannelId);
+            if (stopChannel) {
+                const msgObj = await parseMessage(config.messages.onStop, { client, channel: stopChannel });
+                await stopChannel.send(msgObj);
+            }
             logger.info(`Bot shutting down!`);
             process.exit(0);
         }
