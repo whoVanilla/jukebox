@@ -1,0 +1,27 @@
+{
+  "name": "jukebox",
+  "version": "1.0.0",
+  "description": "A cute music bot for personal use.",
+  "main": "index.js",
+  "author": "Vanilla",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@abdevs/console-manager": "^4.3.3",
+    "@abdevs/discord.js-utils": "^6.0.2",
+    "@abdevs/js-file-executor": "^2.0.3",
+    "@discordjs/opus": "^0.7.0",
+    "@discordjs/voice": "^0.7.5",
+    "@distube/spotify": "^1.1.0",
+    "chalk": "4.1.0",
+    "discord.js": "^13.6.0",
+    "distube": "^3.1.1",
+    "dotenv": "^12.0.4",
+    "ffmpeg-static": "^4.4.1",
+    "libsodium-wrappers": "^0.7.9",
+    "lodash": "^4.17.21",
+    "winston": "^3.4.0"
+  }
+}
