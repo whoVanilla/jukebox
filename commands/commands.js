@@ -3,6 +3,8 @@ const { Client, TextChannel } = require('discord.js');
 const _ = require('lodash');
 const { getConfig, getDistube } = require('../utils/constants');
 const { parseMessage } = require('../utils/utils');
+const progressBar = require("string-progressbar");
+const formatDuration = require('format-duration');
 
 module.exports = (/** @type {Client} */ client) => {
 
@@ -23,8 +25,6 @@ module.exports = (/** @type {Client} */ client) => {
                     return;
                 }
                 queue.resume();
-                const msgObj = await parseMessage(config.messages.resumed, { guild, user: author, member, bot: client.user, channel });
-                channel.send(msgObj);
                 message.react('▶');
                 return;
             }
@@ -90,7 +90,9 @@ module.exports = (/** @type {Client} */ client) => {
                 return;
             }
             const song = queue.songs[0];
-            const msgObj = await parseMessage(config.messages.nowPlaying, { guild, user: author, member, bot: client.user, channel, song });
+            const formattedCurrentDuration = formatDuration(queue.currentTime * 1000);
+            const formattedTotalDuration = formatDuration(song.duration * 1000);
+            const msgObj = await parseMessage(config.messages.nowPlayingCommand, { guild, user: author, member, bot: client.user, channel, song, progressBar: progressBar.splitBar(song.duration, queue.currentTime, 17)[0], formattedCurrentDuration, formattedTotalDuration });
             channel.send(msgObj);
         }
     });
@@ -185,11 +187,6 @@ module.exports = (/** @type {Client} */ client) => {
             const { guild, author, member, channel } = message;
             if (!guild || !member || !(channel instanceof TextChannel)) return;
             const config = getConfig();
-            if (args.length === 0 || !parseInt(args[0])) {
-                const msgObj = await parseMessage(config.messages.provideASongIndex, { guild, user: author, member, bot: client.user, channel });
-                channel.send(msgObj);
-                return;
-            }
             const voiceChannel = member.voice.channel;
             if (!voiceChannel) {
                 const msgObj = await parseMessage(config.messages.userNotInVoice, { guild, user: author, member, bot: client.user, channel });
@@ -210,6 +207,11 @@ module.exports = (/** @type {Client} */ client) => {
             const queue = distube.getQueue(guild.id);
             if (!queue) {
                 const msgObj = await parseMessage(config.messages.notPlaying, { guild, user: author, member, bot: client.user, channel });
+                channel.send(msgObj);
+                return;
+            }
+            if (args.length === 0 || !parseInt(args[0])) {
+                const msgObj = await parseMessage(config.messages.provideASongIndex, { guild, user: author, member, bot: client.user, channel });
                 channel.send(msgObj);
                 return;
             }
@@ -272,8 +274,6 @@ module.exports = (/** @type {Client} */ client) => {
             const song = queue.songs[0];
             queue.pause();
             message.react('⏸');
-            const msgObj = await parseMessage(config.messages.songPaused, { guild, user: author, member, bot: client.user, channel, song });
-            channel.send(msgObj);
         }
     });
 
@@ -315,8 +315,6 @@ module.exports = (/** @type {Client} */ client) => {
             const song = queue.songs[0];
             queue.resume();
             message.react('▶');
-            const msgObj = await parseMessage(config.messages.songResumed, { guild, user: author, member, bot: client.user, channel, song });
-            channel.send(msgObj);
         }
     });
 
@@ -441,8 +439,6 @@ module.exports = (/** @type {Client} */ client) => {
             }
             const mode = queue.setRepeatMode();
             const stringMode = mode === 0 ? 'disabled' : mode === 1 ? 'single song' : 'queue';
-            if (mode === 0) message.react('❌');
-            else message.react('🔁');
             const msgObj = await parseMessage(config.messages.loopToggle, { guild, user: author, member, bot: client.user, channel, mode: stringMode });
             channel.send(msgObj);
         }
@@ -479,8 +475,6 @@ module.exports = (/** @type {Client} */ client) => {
             }
             queue.shuffle();
             message.react(`🔀`);
-            const msgObj = await parseMessage(config.messages.shuffle, { guild, user: author, member, bot: client.user, channel });
-            channel.send(msgObj);
         }
     });
 
@@ -490,11 +484,6 @@ module.exports = (/** @type {Client} */ client) => {
             const { guild, author, member, channel } = message;
             if (!guild || !member || !(channel instanceof TextChannel)) return;
             const config = getConfig();
-            if (args.length === 0 || parseInt(args[0]) < 0 || parseInt(args[0]) > 100) {
-                const msgObj = await parseMessage(config.messages.volumeRequired, { guild, user: author, member, bot: client.user, channel });
-                channel.send(msgObj);
-                return;
-            }
             const voiceChannel = member.voice.channel;
             if (!voiceChannel) {
                 const msgObj = await parseMessage(config.messages.userNotInVoice, { guild, user: author, member, bot: client.user, channel });
@@ -518,9 +507,32 @@ module.exports = (/** @type {Client} */ client) => {
                 channel.send(msgObj);
                 return;
             }
+            if (args.length === 0) {
+                const volume = queue.volume;
+                const msgObj = await parseMessage(config.messages.volume, { guild, user: author, member, bot: client.user, channel, volume });
+                channel.send(msgObj);
+                return;
+            }
+            if (parseInt(args[0]) < 0 || parseInt(args[0]) > 100) {
+                const msgObj = await parseMessage(config.messages.volumeRequired, { guild, user: author, member, bot: client.user, channel });
+                channel.send(msgObj);
+                return;
+            }
             const volume = parseInt(args[0]);
             queue.setVolume(volume);
             const msgObj = await parseMessage(config.messages.volumeChanged, { guild, user: author, member, bot: client.user, channel, volume });
+            channel.send(msgObj);
+        }
+    });
+
+    addCommand({
+        ...config.commands.invite,
+        handler: async (message) => {
+            const { guild, author, member, channel } = message;
+            if (!guild || !member || !(channel instanceof TextChannel)) return;
+            const config = getConfig();
+            const invite = client.generateInvite({ scopes: ['bot'], permissions: ['CONNECT', 'CREATE_INSTANT_INVITE', 'EMBED_LINKS', 'REQUEST_TO_SPEAK', 'SEND_MESSAGES', 'SPEAK', 'VIEW_CHANNEL'] });
+            const msgObj = await parseMessage(config.messages.invite, { guild, user: author, member, bot: client.user, channel, invite });
             channel.send(msgObj);
         }
     });

@@ -84,6 +84,11 @@ const defaultConfigObject = {
             command: 'volume',
             aliases: ['vol'],
             description: 'Change the volume of the current queue',
+        },
+        invite: {
+            command: 'invite',
+            aliases: ['inv'],
+            description: 'Get the bot invite link',
         }
     },
     consoleCommands: {
@@ -113,6 +118,11 @@ const defaultConfigObject = {
             description: 'Guilds the bot is currently playing songs in',
             aliases: ['np'],
             guildsPerPage: 10,
+        },
+        invite: {
+            command: 'invite',
+            description: 'Get the provided guild invite link',
+            aliases: ['inv'],
         }
     },
     messages: {
@@ -132,10 +142,6 @@ const defaultConfigObject = {
             description: `The queue is not paused`,
             color: 'YELLOW',
         },
-        resumed: {
-            description: `The queue has been resumed`,
-            color: 'GREEN',
-        },
         userNotInVoice: {
             description: `You have to be in a voice channel to play music!`,
             color: 'RED',
@@ -151,6 +157,15 @@ const defaultConfigObject = {
         nowPlaying: {
             title: 'Now playing',
             description: '[{song_name}]({song_url})',
+            thumbnail: '{song_thumbnail}',
+            footer: 'Duration: {song_formattedDuration}',
+            color: 'GREEN'
+        },
+        nowPlayingCommand: {
+            title: 'Now playing',
+            description: `[{song_name}]({song_url})
+            
+            {formattedCurrentDuration} {progressBar} {formattedTotalDuration}`,
             thumbnail: '{song_thumbnail}',
             footer: 'Duration: {song_formattedDuration}',
             color: 'GREEN'
@@ -195,15 +210,11 @@ const defaultConfigObject = {
             color: 'RED',
         },
         songIndexTooHigh: {
-            description: `The song index is too high! There are only {song_count} songs in the queue.`,
+            description: `The song index is too high! There are only {count} songs in the queue.`,
             color: 'RED',
         },
         removedSong: {
             description: `Removed the song named [{song_name}]({song_url}).`,
-            color: 'GREEN',
-        },
-        songPaused: {
-            description: `Paused the current song!`,
             color: 'GREEN',
         },
         alreadyPaused: {
@@ -222,10 +233,6 @@ const defaultConfigObject = {
             description: `Looping is now on {mode} mode.`,
             color: 'GREEN',
         },
-        shuffle: {
-            description: `Shuffled the queue!`,
-            color: 'GREEN',
-        },
         queueCleared: {
             description: `Cleared the current queue!`,
             color: 'GREEN',
@@ -242,12 +249,20 @@ const defaultConfigObject = {
             thumbnail: `https://static.wikia.nocookie.net/minecraft/images/e/e2/RedstoneLampNew.gif`,
             footer: `Jukebox`
         },
+        volume: {
+            description: `Current volume is {volume}%`,
+            color: 'GREEN',
+        },
         volumeRequired: {
             description: `Please provide a volume between 0 and 100`,
             color: 'RED',
         },
         volumeChanged: {
             description: `Volume changed to \`{volume}\`%`,
+            color: 'GREEN',
+        },
+        invite: {
+            description: `Invite the bot to your server: [Invite Jukebox]({invite})`,
         }
     }
 };

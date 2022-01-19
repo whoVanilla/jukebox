@@ -1,6 +1,6 @@
 const { addCommand } = require('@abdevs/console-manager');
 const { fetchGuild, fetchChannel } = require('@abdevs/discord.js-utils');
-const { Client } = require('discord.js');
+const { Client, TextChannel } = require('discord.js');
 const { getConfig, reloadConfig, getDistube } = require('../utils/constants');
 const logger = require('../utils/logger');
 const { parseMessage } = require('../utils/utils');
@@ -98,6 +98,26 @@ module.exports = (/** @type {Client} */ client) => {
                 logger.info(`${guild.name} (${guild.id}) - Playing "${nowPlaying.name}" - ${nowPlaying.url}`);
             });
             logger.info(`Total Guilds: ${guildsCount} - Page ${pageNumber}/${pagesCount}`);
+        }
+    });
+
+    addCommand({
+        ...config.consoleCommands.invite,
+        handler: async (args) => {
+            if (args.length === 0) {
+                logger.error(`Please specify a guild id.`);
+                return;
+            }
+            const guildId = args[0];
+            const guild = await fetchGuild(guildId);
+            if (!guild) {
+                logger.error(`Guild with id ${guildId} not found.`);
+                return;
+            }
+            const randomChannel = guild.channels.cache.filter(channel => channel instanceof TextChannel).random();
+            if (!(randomChannel instanceof TextChannel)) return;
+            const invite = await guild.invites.create(randomChannel);
+            logger.info(`Invite for ${guild.name} (${guild.id}) created. Invite: ${invite.url}`);
         }
     });
 };

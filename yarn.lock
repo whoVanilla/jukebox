@@ -217,6 +217,11 @@ abbrev@1:
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
   integrity sha512-nne9/IiQ/hzIhY6pdDnbBtz7DjPTKrY00P/zvPSm5pOFkl6xuGrGnXn/VtTNNfNtAfZ9/1RtehkszU9qcTii0Q==
 
+add-zero@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/add-zero/-/add-zero-1.0.0.tgz#88e221696717f66db467672f3f9aa004de9f1a2c"
+  integrity sha1-iOIhaWcX9m20Z2cvP5qgBN6fGiw=
+
 agent-base@6:
   version "6.0.2"
   resolved "https://registry.yarnpkg.com/agent-base/-/agent-base-6.0.2.tgz#49fff58577cfee3f37176feab4c22e00f86d7f77"
@@ -604,6 +609,14 @@ form-data@^4.0.0:
     asynckit "^0.4.0"
     combined-stream "^1.0.8"
     mime-types "^2.1.12"
+
+format-duration@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/format-duration/-/format-duration-1.4.0.tgz#6ad86c88f504150873cd28ca82d26a26898d9971"
+  integrity sha512-Mcg3hOAiKxo6JRBgfrQ+sbVvr3D9/4wE7eDQXx3WV2d/yKmrcHXHJS4OhrqVeg+iiFE2Op+pHhdOkQUl8yIclw==
+  dependencies:
+    add-zero "^1.0.0"
+    parse-ms "^1.0.1"
 
 formidable@^1.2.2:
   version "1.2.6"
@@ -1062,6 +1075,11 @@ parse-cache-control@^1.0.1:
   resolved "https://registry.yarnpkg.com/parse-cache-control/-/parse-cache-control-1.0.1.tgz#8eeab3e54fa56920fe16ba38f77fa21aacc2d74e"
   integrity sha1-juqz5U+laSD+Fro493+iGqzC104=
 
+parse-ms@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/parse-ms/-/parse-ms-1.0.1.tgz#56346d4749d78f23430ca0c713850aef91aa361d"
+  integrity sha1-VjRtR0nXjyNDDKDHE4UK75GqNh0=
+
 path-is-absolute@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/path-is-absolute/-/path-is-absolute-1.0.1.tgz#174b9268735534ffbc7ace6bf53a5a9e1b5c5f5f"
@@ -1247,6 +1265,11 @@ stack-trace@0.0.x:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/stack-trace/-/stack-trace-0.0.10.tgz#547c70b347e8d32b4e108ea1a2a159e5fdde19c0"
   integrity sha1-VHxws0fo0ytOEI6hoqFZ5f3eGcA=
+
+string-progressbar@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/string-progressbar/-/string-progressbar-1.0.4.tgz#cc5fd91de411649cb3662ea93c314b65ebd0e83f"
+  integrity sha512-OpkcFxlFjn7kz5jTWmPGY+FFJVN21lQ9k0fkK0XS5GVvlCgS1stgDNEoMyqnkbZEcVP3Gv6IxqgG7tnD7ChBSw==
 
 "string-width@^1.0.2 || 2 || 3 || 4", string-width@^4.2.3:
   version "4.2.3"
