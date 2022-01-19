@@ -39,6 +39,7 @@ const defaultConfigObject = {
             command: 'queue',
             aliases: ['q'],
             description: 'Get the current queue',
+            maxSongsPerQueue: 10,
         },
         remove: {
             command: 'remove',

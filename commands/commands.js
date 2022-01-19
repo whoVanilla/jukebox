@@ -165,17 +165,18 @@ module.exports = (/** @type {Client} */ client) => {
                 channel.send(msgObj);
                 return;
             }
-            const top20Songs = queue.songs.filter((_song, i) => i <= 19);
+            const maxSongs = config.commands.queue.maxSongsPerQueue;
+            const topSongs = queue.songs.filter((_song, i) => i + 1 <= maxSongs);
             const description = [];
-            for (let i = 0; i < top20Songs.length; i++) {
-                const song = top20Songs[i];
+            for (let i = 0; i < topSongs.length; i++) {
+                const song = topSongs[i];
                 let format;
                 if (i === 0) format = await setPlaceholders(config.messages.queueSongFormatForNowPlaying, { guild, user: author, member, bot: client.user, channel, queue, song, index: i + 1 });
                 else format = await setPlaceholders(config.messages.queueSongFormat, { guild, user: author, member, bot: client.user, channel, queue, song, index: i + 1 });
                 description.push(format);
             }
-            if (queue.songs.length > 20)
-                description.push(`and ${queue.songs.length - 20} more...`);
+            if (queue.songs.length > maxSongs)
+                description.push(`and ${queue.songs.length - maxSongs} more...`);
             const msgObj = await parseMessage(config.messages.currentQueue, { guild, user: author, member, bot: client.user, channel, queue, description: description.join('\n') });
             channel.send(msgObj);
         }
