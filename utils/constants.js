@@ -6,8 +6,8 @@ const defaultConfigObject = {
     themeColor: '#6e3dff',
     prefix: '-',
     activity: {
-        name: 'Webhooks',
-        type: 'LISTENING',
+        name: 'Songs',
+        type: 'PLAYING',
     },
     consoleColors: {
         time: `#918c8c`,
