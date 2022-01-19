@@ -225,10 +225,6 @@ const defaultConfigObject = {
             description: `The queue is already playing!`,
             color: 'YELLOW',
         },
-        songResumed: {
-            description: `Resumed the current queue!`,
-            color: 'GREEN',
-        },
         loopToggle: {
             description: `Looping is now on {mode} mode.`,
             color: 'GREEN',
