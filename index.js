@@ -12,6 +12,7 @@ const logger = require('./utils/logger');
 const { default: DisTube } = require('distube');
 const { SpotifyPlugin } = require('@distube/spotify');
 const { parseMessage } = require('./utils/utils');
+const { YtDlpPlugin } = require('@distube/yt-dlp');
 
 ConsoleManager.init({ isHelpCommand: true });
 
@@ -55,9 +56,10 @@ client
 
     const distube = new DisTube(client, {
       searchSongs: 1,
-      plugins: [new SpotifyPlugin()],
+      plugins: [new YtDlpPlugin(), new SpotifyPlugin()],
       leaveOnEmpty: false,
       leaveOnStop: false,
+      youtubeDL: false,
     });
     setDistube(distube);
     fileExecutor('commands', client);
